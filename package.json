@@ -2,11 +2,13 @@
   "name": "@himenon/openapi-parameter-formatter",
   "version": "0.2.0",
   "private": true,
-  "description": "node library template",
+  "description": "Serializes OpenAPI parameter objects.",
   "keywords": [
-    "template",
-    "proxy directory",
-    "typescript"
+    "serialize-parameter",
+    "query parameter",
+    "path parameter",
+    "cookie parameter",
+    "header parameter"
   ],
   "homepage": "https://github.com/Himenon/openapi-parameter-formatter#readme",
   "bugs": {
