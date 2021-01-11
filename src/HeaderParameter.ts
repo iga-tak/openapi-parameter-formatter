@@ -1,7 +1,11 @@
-import { ArrayType } from "./Types";
+import { ParameterOfSimple } from "./Types";
+import * as Core from "./Core";
 
-export interface HeaderParameter {
-  value: ArrayType;
-  style?: "simple";
-  explode: boolean;
-}
+export type Parameter = ParameterOfSimple;
+
+export const generate = (key: string | number, params: Parameter): string | undefined => {
+  if (params.style === "simple") {
+    return Core.generateFromSimple(key, params);
+  }
+  return undefined;
+};

@@ -1,64 +1,20 @@
-import { PrimitiveType, ObjectType, ArrayType } from "./Types";
-import * as Guard from "./Guard";
-
-export interface ParameterOfForm {
-  value: PrimitiveType | ArrayType | ObjectType;
-  style: "form";
-  explode: boolean;
-}
-
-export interface ParameterOfSpaceDelimited {
-  value: ArrayType | ObjectType;
-  style: "spaceDelimited";
-  explode: boolean;
-}
-
-export interface ParameterOfPipeDelimited {
-  value: ArrayType | ObjectType;
-  style: "pipeDelimited";
-  explode: boolean;
-}
-
-export interface ParameterOfDeepObject {
-  value: ObjectType;
-  style: "deepObject";
-  explode: boolean;
-}
+import { ParameterOfForm, ParameterOfSpaceDelimited, ParameterOfPipeDelimited, ParameterOfDeepObject } from "./Types";
+import * as Core from "./Core";
 
 export type Parameter = ParameterOfForm | ParameterOfSpaceDelimited | ParameterOfPipeDelimited | ParameterOfDeepObject;
 
-export const generateFormParamter = (key: string | number, params: ParameterOfForm): string => {
-  if (Guard.isEmpty(params.value)) {
-    return `${key}=`;
-  }
-  if (Guard.isPrimitive(params.value)) {
-    return `${key}=${params.value}`;
-  }
-  if (Guard.isArray(params.value)) {
-    if (params.explode) {
-      return params.value.map(item => `${key}=${item}`).join("&");
-    } else {
-      return `${key}=${params.value.join(",")}`;
-    }
-  }
-  if (Guard.isObject(params.value)) {
-    if (params.explode) {
-      return Object.entries(params.value)
-        .map(([k, v]) => `${k}=${v}`)
-        .join("&");
-    } else {
-      const value = Object.entries(params.value)
-        .map(([k, v]) => `${k},${v}`)
-        .join(",");
-      return `${key}=${value}`;
-    }
-  }
-  return `${key}=`;
-};
-
-export const generate = (key: string | number, params: Parameter): string => {
+export const generate = (key: string | number, params: Parameter): string | undefined => {
   if (params.style === "form") {
-    return generateFormParamter(key, params);
+    return Core.generateFormParamter(key, params);
   }
-  return `${key}`;
+  if (params.style === "spaceDelimited") {
+    return Core.generateSpaceDelimited(key, params);
+  }
+  if (params.style === "pipeDelimited") {
+    return Core.generatePipeDelimitedParameter(key, params);
+  }
+  if (params.style === "deepObject") {
+    return Core.generateDeepObjectParameter(key, params);
+  }
+  return undefined;
 };

@@ -1,29 +1,63 @@
-# @himenon/node-lib-template
+# @himenon/openapi-parameter-formatter
+
+A library that serializes OpenAPI parameter objects.
+It is implemented according to the following style definition.
+
+- https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md#style-examples
 
 ## Usage
 
-| scripts                   | description                                 |
-| :------------------------ | :------------------------------------------ |
-| `build`                   | typescript build and create proxy directory |
-| `clean`                   | clean up                                    |
-| `format:code`             | prettier                                    |
-| `format:yarn:lock`        | yarn.lock deduplicate                       |
-| `lerna:version:up`        | lerna version up                            |
-| `test`                    | execute test:depcruise, test:jest           |
-| `test:depcruise`          | dependency-cruiser's test                   |
-| `test:jest`               | jest test                                   |
-| `ts`                      | execute ts-node                             |
-| `release:github:registry` | publish github registry                     |
-| `release:npm:registry`    | publish npm registry                        |
+```ts
+import { PathParameter } from "@himenon/openapi-parameter-formatter";
 
-## Features
+PathParameter.generate("color", {
+  value: {
+    R: 100,
+    G: 200,
+    B: 150,
+  },
+  style: "label",
+  explode: true,
+});
+```
 
-- [Proxy Directory](https://himenon.github.io/docs/javascript/proxy-directory-design-pattern/)
+```ts
+import { QueryParameter } from "@himenon/openapi-parameter-formatter";
 
-## Release
+QueryParameter.generate("color", {
+  value: {
+    R: 100,
+    G: 200,
+    B: 150,
+  },
+  style: "deepObject",
+  explode: true,
+});
+// color[R]=100&color[G]=200&color[B]=150
+```
 
-- Automatic version updates are performed when merged into the `main` branch.
+```ts
+import { HeaderParameter } from "@himenon/openapi-parameter-formatter";
+
+HeaderParameter.generate("color", {
+  value: ["blue", "black", "brown"],
+  style: "simple",
+  explode: false,
+});
+// "blue,black,brown"
+```
+
+```ts
+import { CookieParameter } from "@himenon/openapi-parameter-formatter";
+
+CookieParameter.generate("color", {
+  value: ["blue", "black", "brown"],
+  style: "form",
+  explode: false,
+});
+// "color=R,100,G,200,B,150"
+```
 
 ## LICENCE
 
-[@himenon-node-lib-template](https://github.com/Himenon/node-lib-template)・MIT
+[@himenon/openapi-parameter-formatter](https://github.com/Himenon/openapi-parameter-formatter)・MIT
