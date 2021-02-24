@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.3"></a>
+## 0.2.3 (2021-02-24)
+
+
+### Bug Fixes
+
+* Apply the style value according to RFC6570. ([#5](https://github.com/Himenon/openapi-parameter-formatter/issues/5)) ([feda6a6](https://github.com/Himenon/openapi-parameter-formatter/commit/feda6a6)), closes [#4](https://github.com/Himenon/openapi-parameter-formatter/issues/4)
+
+
+
+
+
 <a name="0.2.2"></a>
 ## 0.2.2 (2021-01-14)
 
