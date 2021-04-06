@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.4"></a>
+## 0.2.4 (2021-04-06)
+
+
+### Builds
+
+* **deps:** bump y18n from 4.0.0 to 4.0.1 ([#6](https://github.com/Himenon/openapi-parameter-formatter/issues/6)) ([4159b79](https://github.com/Himenon/openapi-parameter-formatter/commit/4159b79))
+
+
+
+
+
 <a name="0.2.3"></a>
 ## 0.2.3 (2021-02-24)
 
