@@ -143,3 +143,74 @@ describe("QueryParameter - style:deepObject", () => {
     expect(result1).toBe("color[R]=100&color[G]=200&color[B]=150");
   });
 });
+
+describe("QueryParameter - # includes", () => {
+  test("form - explode:true/false value:string", () => {
+    const result1 = QueryParameter.generate("color", {
+      value: "#blue",
+      style: "form",
+      explode: true,
+    });
+    expect(result1).toBe("color=%23blue2");
+  });
+  test("form - explode:false value:string[]", () => {
+    const result = QueryParameter.generate("color", {
+      value: ["#blue", "#black", "#brown"],
+      style: "form",
+      explode: false,
+    });
+    expect(result).toBe("color=%23blue,%23black,%23brown");
+  });
+  test("form - explode:false value:object", () => {
+    const result1 = QueryParameter.generate("color", {
+      value: {
+        R: "#100",
+        G: "#200",
+        B: "#150",
+      },
+      style: "form",
+      explode: false,
+    });
+    expect(result1).toBe("color=R,%23100,G,%23200,B,%23150");
+  });
+  test("form - explode:true value:object", () => {
+    const result1 = QueryParameter.generate("color", {
+      value: {
+        R: "#100",
+        G: "#200",
+        B: "#150",
+      },
+      style: "form",
+      explode: true,
+    });
+    expect(result1).toBe("R=%23100&G=%23200&B=%23150");
+  });
+  test("spaceDelimited - explode:false value:any[]", () => {
+    const result1 = QueryParameter.generate("color", {
+      value: ["#blue", "#black", "#brown"],
+      style: "spaceDelimited",
+      explode: false,
+    });
+    expect(result1).toBe("%23blue%20%23black%20%23brown");
+  });
+  test("pipeDelimited - explode:false value:any[]", () => {
+    const result1 = QueryParameter.generate("color", {
+      value: ["#blue", "#black", "#brown"],
+      style: "pipeDelimited",
+      explode: false,
+    });
+    expect(result1).toBe("%23blue|%23black|%23brown");
+  });
+  test("deepObject - explode:true value:object", () => {
+    const result1 = QueryParameter.generate("color", {
+      value: {
+        R: "#100",
+        G: "#200",
+        B: "#150",
+      },
+      style: "deepObject",
+      explode: true,
+    });
+    expect(result1).toBe("color[R]=%23100&color[G]=%23200&color[B]=%23150");
+  });
+});
