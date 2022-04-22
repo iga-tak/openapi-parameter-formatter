@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.2.7"></a>
+
+## 0.2.7 (2022-04-22)
+
+### Chores
+
+- update dependencies ([#10](https://github.com/Himenon/openapi-parameter-formatter/issues/10)) ([3d66cea](https://github.com/Himenon/openapi-parameter-formatter/commit/3d66cea))
+
 <a name="0.2.6"></a>
 
 ## 0.2.6 (2022-04-22)
