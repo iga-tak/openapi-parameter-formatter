@@ -36,75 +36,97 @@ export const generateFromSimple = (key: string | number, params: ParameterOfSimp
   return undefined;
 };
 
-export const generateFormParamter = (key: string | number, params: ParameterOfForm): string => {
+export const generateFormParamter = (key: string | number, params: ParameterOfForm): URLSearchParams | undefined => {
+  const queryParams = new URLSearchParams();
   if (Guard.isEmpty(params.value)) {
-    return `${key}=`;
+    queryParams.append(key.toString(), "");
+    return queryParams;
   }
+
   if (Guard.isPrimitive(params.value)) {
-    return `${key}=${params.value}`;
+    queryParams.append(key.toString(), params.value?.toString() ?? "");
+    return queryParams;
   }
+
   if (Guard.isArray(params.value)) {
     if (params.explode) {
-      return params.value.map(item => `${key}=${item}`).join("&");
+      params.value.map(item => {
+        queryParams.append(key.toString(), item.toString());
+      });
     } else {
-      return `${key}=${params.value.join(",")}`;
+      queryParams.append(key.toString(), params.value.join(","));
     }
+    return queryParams;
   }
+
   if (Guard.isObject(params.value)) {
     if (params.explode) {
-      return Object.entries(params.value)
-        .map(([k, v]) => `${k}=${v}`)
-        .join("&");
+      Object.entries(params.value).map(([k, v]) => {
+        queryParams.append(k.toString(), v.toString());
+      });
     } else {
       const value = Object.entries(params.value)
         .map(([k, v]) => `${k},${v}`)
         .join(",");
-      return `${key}=${value}`;
+      queryParams.append(key.toString(), value);
     }
+    return queryParams;
   }
-  return `${key}=`;
+
+  queryParams.append(key.toString(), "");
+  return queryParams;
 };
 
-export const generateSpaceDelimited = (key: string | number, params: ParameterOfSpaceDelimited): string | undefined => {
+export const generateSpaceDelimited = (key: string | number, params: ParameterOfSpaceDelimited): URLSearchParams | undefined => {
+  const queryParams = new URLSearchParams();
   if (Guard.isArray(params.value)) {
-    return encodeURIComponent(params.value.join(" "));
+    queryParams.append(key.toString(), params.value.join(" "));
+    return queryParams;
   }
+
   if (Guard.isObject(params.value)) {
     const value = Object.entries(params.value)
       .map(([k, v]) => `${k} ${v}`)
       .join(" ");
-    return encodeURIComponent(value);
+    queryParams.append(key.toString(), value);
+    return queryParams;
   }
+
   return undefined;
 };
 
-export const generatePipeDelimitedParameter = (key: string | number, params: ParameterOfPipeDelimited): string | undefined => {
+export const generatePipeDelimitedParameter = (key: string | number, params: ParameterOfPipeDelimited): URLSearchParams | undefined => {
+  const queryParams = new URLSearchParams();
   if (Guard.isArray(params.value)) {
-    return params.value.join("|");
+    queryParams.append(key.toString(), params.value.join("|"));
+    return queryParams;
   }
+
   if (Guard.isObject(params.value)) {
     const value = Object.entries(params.value)
       .map(([k, v]) => `${k}|${v}`)
       .join("|");
-    return value;
+    queryParams.append(key.toString(), value);
+    return queryParams;
   }
+
   return undefined;
 };
 
-export const generateDeepObjectParameter = (key: string | number, params: ParameterOfDeepObject): string | undefined => {
+export const generateDeepObjectParameter = (key: string | number, params: ParameterOfDeepObject): URLSearchParams | undefined => {
   if (!Guard.isObject(params.value)) {
     return undefined;
   }
+  const queryParams = new URLSearchParams();
   const flatObject = flatten<ObjectType, { [key: string]: PrimitiveType }>(params.value);
-  return Object.entries(flatObject)
-    .map(([dotKeyName, primitiveValue]) => {
-      const nestedKey = dotKeyName
-        .split(".")
-        .map(k1 => `[${k1}]`)
-        .join("");
-      return `${[key]}${nestedKey}=${primitiveValue}`;
-    })
-    .join("&");
+  Object.entries(flatObject).map(([dotKeyName, primitiveValue]) => {
+    const nestedKey = dotKeyName
+      .split(".")
+      .map(k1 => `[${k1}]`)
+      .join("");
+    queryParams.append(`${key}${nestedKey}`, primitiveValue?.toString() ?? "");
+  });
+  return queryParams;
 };
 
 export const generateFromMatrix = (key: string | number, params: ParameterOfMatrix): string | undefined => {

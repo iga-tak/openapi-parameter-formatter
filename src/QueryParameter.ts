@@ -3,7 +3,7 @@ import * as Core from "./Core";
 
 export type Parameter = ParameterOfForm | ParameterOfSpaceDelimited | ParameterOfPipeDelimited | ParameterOfDeepObject;
 
-export const generate = (key: string | number, params: Parameter): string | undefined => {
+export const generate = (key: string | number, params: Parameter): URLSearchParams | undefined => {
   if (params.style === "form") {
     return Core.generateFormParamter(key, params);
   }
