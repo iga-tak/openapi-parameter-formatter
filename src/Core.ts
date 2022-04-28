@@ -36,7 +36,11 @@ export const generateFromSimple = (key: string | number, params: ParameterOfSimp
   return undefined;
 };
 
-export const generateFormParamter = (key: string | number, params: ParameterOfForm): URLSearchParams | undefined => {
+export const generateFormParamter = (key: string | number, params: ParameterOfForm): string => {
+  return generateFormParamterAsURLSearchParams(key, params).toString();
+};
+
+export const generateFormParamterAsURLSearchParams = (key: string | number, params: ParameterOfForm): URLSearchParams => {
   const queryParams = new URLSearchParams();
   if (Guard.isEmpty(params.value)) {
     queryParams.append(key.toString(), "");
@@ -77,7 +81,14 @@ export const generateFormParamter = (key: string | number, params: ParameterOfFo
   return queryParams;
 };
 
-export const generateSpaceDelimited = (key: string | number, params: ParameterOfSpaceDelimited): URLSearchParams | undefined => {
+export const generateSpaceDelimited = (key: string | number, params: ParameterOfSpaceDelimited): string | undefined => {
+  return generateSpaceDelimitedAsURLSearchParams(key, params)?.toString();
+};
+
+export const generateSpaceDelimitedAsURLSearchParams = (
+  key: string | number,
+  params: ParameterOfSpaceDelimited,
+): URLSearchParams | undefined => {
   const queryParams = new URLSearchParams();
   if (Guard.isArray(params.value)) {
     queryParams.append(key.toString(), params.value.join(" "));
@@ -95,7 +106,14 @@ export const generateSpaceDelimited = (key: string | number, params: ParameterOf
   return undefined;
 };
 
-export const generatePipeDelimitedParameter = (key: string | number, params: ParameterOfPipeDelimited): URLSearchParams | undefined => {
+export const generatePipeDelimitedParameter = (key: string | number, params: ParameterOfPipeDelimited): string | undefined => {
+  return generatePipeDelimitedParameterAsURLSearchParams(key, params)?.toString();
+};
+
+export const generatePipeDelimitedParameterAsURLSearchParams = (
+  key: string | number,
+  params: ParameterOfPipeDelimited,
+): URLSearchParams | undefined => {
   const queryParams = new URLSearchParams();
   if (Guard.isArray(params.value)) {
     queryParams.append(key.toString(), params.value.join("|"));
@@ -113,7 +131,14 @@ export const generatePipeDelimitedParameter = (key: string | number, params: Par
   return undefined;
 };
 
-export const generateDeepObjectParameter = (key: string | number, params: ParameterOfDeepObject): URLSearchParams | undefined => {
+export const generateDeepObjectParameter = (key: string | number, params: ParameterOfDeepObject): string | undefined => {
+  return generateDeepObjectParameterAsURLSearchParams(key, params)?.toString();
+};
+
+export const generateDeepObjectParameterAsURLSearchParams = (
+  key: string | number,
+  params: ParameterOfDeepObject,
+): URLSearchParams | undefined => {
   if (!Guard.isObject(params.value)) {
     return undefined;
   }

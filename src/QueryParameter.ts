@@ -3,7 +3,7 @@ import * as Core from "./Core";
 
 export type Parameter = ParameterOfForm | ParameterOfSpaceDelimited | ParameterOfPipeDelimited | ParameterOfDeepObject;
 
-export const generate = (key: string | number, params: Parameter): URLSearchParams | undefined => {
+export const generate = (key: string | number, params: Parameter): string | undefined => {
   if (params.style === "form") {
     return Core.generateFormParamter(key, params);
   }
@@ -15,6 +15,22 @@ export const generate = (key: string | number, params: Parameter): URLSearchPara
   }
   if (params.style === "deepObject") {
     return Core.generateDeepObjectParameter(key, params);
+  }
+  return undefined;
+};
+
+export const generateAsURLSearchParams = (key: string | number, params: Parameter): URLSearchParams | undefined => {
+  if (params.style === "form") {
+    return Core.generateFormParamterAsURLSearchParams(key, params);
+  }
+  if (params.style === "spaceDelimited") {
+    return Core.generateSpaceDelimitedAsURLSearchParams(key, params);
+  }
+  if (params.style === "pipeDelimited") {
+    return Core.generatePipeDelimitedParameterAsURLSearchParams(key, params);
+  }
+  if (params.style === "deepObject") {
+    return Core.generateDeepObjectParameterAsURLSearchParams(key, params);
   }
   return undefined;
 };
